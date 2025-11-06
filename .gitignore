@@ -1,0 +1,26 @@
+# Virtual Environment
+shekar/
+venv/
+env/
+ENV/
+*.pyc
+__pycache__/
+
+# BFG Repo-Cleaner reports
+*.bfg-report/
+
+# Nested Git repositories
+*.git/
+
+# Environment variables
+.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
