@@ -4,8 +4,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from dotenv import load_dotenv
 import logging
-import pytest
-from selenium import webdriver
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")   
 
@@ -14,13 +12,6 @@ load_dotenv(override=True)
 login_url = os.getenv("login_url")
 username = os.getenv("username")
 password = os.getenv("password")
-
-@pytest.fixture
-def driver():
-    driver = webdriver.Chrome()
-    driver.maximize_window()
-    yield driver
-    driver.quit()
 
 def perform_login(driver):
         driver.get(login_url)
