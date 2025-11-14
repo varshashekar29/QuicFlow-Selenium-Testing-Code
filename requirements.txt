@@ -1,0 +1,68 @@
+1. Jira Field Extraction
+Goal: Get all fields from both source and destination Jira instances.
+How: Use Jira REST API (/rest/api/2/field) with your credentials.
+Code: Write Python functions to fetch and parse fields for both instances.
+
+2. Field Mapping in Product
+Goal: Map which fields the user wants to sync.
+How: Store mappings in your product (DB, config file, or UI selection).
+Code: Create a structure (e.g., dictionary or database table) to hold these mappings.
+
+3. Compare Source and Destination Fields
+Goal: Ensure mapped fields exist in both Jira instances.
+How: Compare field keys/names from both APIs against your mapping.
+Code: Write a comparison function that flags missing or mismatched fields.
+
+4. Get Synced Fields List from Product
+Goal: Retrieve the list of fields your product actually synced.
+How: Query your product’s sync logs, database, or API.
+Code: Write a function to extract this list.
+
+5. Get Reporting Page Fields Synced List
+Goal: Scrape or fetch the reporting page’s “fields synced” list.
+How: Use Selenium to navigate and extract the list, or use an API if available.
+Code: Write a Selenium function to get the displayed list.
+
+6. Compare Synced Lists
+Goal: Compare the product’s synced fields list with the reporting page’s list.
+How: Find differences, missing, or extra fields.
+Code: Write a comparison and reporting function.
+
+7. Final Result & Reporting
+Goal: Output a clear report of matches, mismatches, and missing fields.
+How: Print/log results, or generate a downloadable report.
+Code: Format results for easy review (console, file, or UI).
+
+
+QuicFlow-Selenium-Testing-Code/
+├── .env                          # Environment variables
+├── conftest.py                   # Pytest configuration & fixtures
+├── mapping_config.json           # Project/field mappings
+├── requirements.txt              # Dependencies
+│
+├── helpers/                      # Helper functions for each module
+│   ├── __init__.py
+│   ├── login_helper.py          # Already exists
+│   ├── dashboard_helper.py      # Dashboard operations
+│   ├── connection_helper.py     # Connection operations
+│   ├── reporting_helper.py      # Reporting operations
+│   ├── subscription_helper.py   # Subscription operations
+│   └── people_groups_helper.py  # People & Groups operations
+│
+├── tests/                       # Test files organized by module
+│   ├── __init__.py
+│   ├── test_login.py           # Login tests
+│   ├── test_dashboard.py       # Dashboard tests
+│   ├── test_connections/       # Connection module tests
+│   │   ├── __init__.py
+│   │   ├── test_connection_create.py
+│   │   ├── test_connection_enable.py
+│   │   ├── test_project_mapping.py
+│   │   └── test_field_mapping.py
+│   ├── test_reporting.py       # Reporting tests
+│   ├── test_subscriptions.py   # Subscription tests
+│   └── test_people_groups.py   # People & Groups tests
+│
+└── utils/                      # Utility functions (optional)
+    ├── __init__.py
+    └── config_loader.py        # Load mapping configs

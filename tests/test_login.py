@@ -8,7 +8,7 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support import expected_conditions as EC
 import logging
 import time
-from login_helper import perform_login
+from helpers.login_helper import perform_login
 
 #Configuring logging to show INFO level messages
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")

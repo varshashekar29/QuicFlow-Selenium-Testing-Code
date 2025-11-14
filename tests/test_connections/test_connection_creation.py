@@ -1,11 +1,12 @@
 import os
-from login_helper import perform_login
+from helpers.login_helper import perform_login
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import logging
 import time
 from selenium.webdriver.common.keys import Keys
+from helpers.connection_helper import navigate_to_connection_page
 
 source_connector_name = os.getenv("source_connector")
 source_url = os.getenv("source_instance_url")
@@ -15,14 +16,11 @@ destination_connector_name = os.getenv("destination_connector")
 destination_url = os.getenv("destination_instance_url")
 destination_email_id = os.getenv("destination_email")
 destination_token = os.getenv("destination_api_token")
+connection_name_given = os.getenv("connection_name")
 
 def test_connection(driver):
     perform_login(driver)    
-    
-    connection_link =  WebDriverWait(driver, 15).until(
-        EC.element_to_be_clickable((By.XPATH, "//span[normalize-space(text())='Connections']/parent::a")) )
-    connection_link.click()
-    logging.info("Navigated to the connection Page")
+    navigate_to_connection_page(driver)    
     
     add_connection_button = WebDriverWait(driver,15).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.bg-primary")))
     add_connection_button.click()
@@ -30,7 +28,7 @@ def test_connection(driver):
     
     connection_name_input=WebDriverWait(driver,15).until(EC.presence_of_element_located((By.XPATH, "//input[@placeholder = 'Enter Connection Name']")))
     connection_name_input.clear()
-    connection_name_input.send_keys("Selenium Connection Creation")
+    connection_name_input.send_keys(connection_name_given)
     logging.info("Connection name entered")
     
     region=WebDriverWait(driver,15).until(EC.element_to_be_clickable((By.XPATH, "//div[@id='react-select-6-placeholder']")))
@@ -38,8 +36,7 @@ def test_connection(driver):
     logging.info("Region dropdown clicked")
     region_option= WebDriverWait(driver,15).until(EC.element_to_be_clickable((By.XPATH, "//div[contains(@class, 'select__option')]")))
     region_option.click()
-    logging.info("Region selected")
-     
+    logging.info("Region selected")     
     
 #     # Source Connector Details
     
@@ -120,7 +117,7 @@ def test_connection(driver):
     save_connection_button.click()    
     logging.info("Connection Saved Successfully")
     save_connection_success_alert = WebDriverWait(driver, 15).until(
-    EC.visibility_of_element_located((By.XPATH, "//*[@id='notistack-snackbar' and contains(text(),'Connection Updated Successfully')]")))
+    EC.visibility_of_element_located((By.XPATH, "//*[@id='notistack-snackbar' and contains(text(),'Connection Saved Successfully')]")))
     assert "Connection Saved Successfully" in save_connection_success_alert.text
     logging.info("Connection saved successfully")
     time.sleep(0.5)

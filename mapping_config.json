@@ -1,0 +1,24 @@
+{
+    "project_mapping" : {
+        "source_project_name": "BENZ1",
+        "destination_project_name":"BENZ2"
+
+    },
+    
+    "record_type_mapping" : {
+        "source_record_type": "Task",
+        "destination_record_type": "Task"
+
+    },
+
+    "field_mapping" :{
+        "BENZ1" : {
+            "Task": {
+                "summary" : "summary",
+                "description" : "description"
+            }
+        }
+        
+    }
+
+}
