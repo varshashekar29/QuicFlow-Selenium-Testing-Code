@@ -11,20 +11,21 @@ from helpers.connection_helper import enable_connection, configure_connection, d
 
 load_dotenv()
 
-def test_enable_connection(driver):
+def test_enable_connection(logged_in_driver):
     connection_name = os.getenv("connection_name")
-    enable_connection(driver, connection_name)
+    enable_connection(logged_in_driver, connection_name)
     time.sleep(8)
 
-def test_connection_configure(driver):
+def test_connection_configure(logged_in_driver):
     connection_name = os.getenv("connection_name")
-    configure_connection(driver, connection_name)
+    configure_connection(logged_in_driver, connection_name)
     time.sleep(8)
 
-def test_disable_connection(driver):
+def test_disable_connection(logged_in_driver):
     connection_name = os.getenv("connection_name")
-    disable_connection(driver, connection_name)
+    disable_connection(logged_in_driver, connection_name)
     time.sleep(8)
+
 
 
 
