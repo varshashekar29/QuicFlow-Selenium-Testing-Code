@@ -170,13 +170,93 @@ def delete_project_mapping(driver):
     time.sleep(5)
         
 def load_record_type_mapping(driver):
-    """Mapping Record Types"""
+    """Getting into Record Types from the project mapping gear icon -> Add Record Type mapping"""
     add_record_type_mapping = WebDriverWait(driver, 15).until(
-    EC.element_to_be_clickable((By.XPATH, "//li[@role='menuitem' and normalize-space(text())='Add Record Type Mapping']")))
+    EC.element_to_be_clickable((By.XPATH, "//li[@role='menuitem' and (normalize-space(text())='Add Record Type Mapping' or normalize-space(text())='Edit Record Type Mapping')]")))
     add_record_type_mapping.click()
-    
+    logging.info("Add record type is clicked")    
+    time.sleep(5)   
 
+def record_type_mapping(driver, source_record_type,destination_record_type):
+    """Mapping Record Types"""
+    source_record_type_input = WebDriverWait(driver, 15).until(
+    EC.element_to_be_clickable((By.XPATH, "//input[@id='react-select-8-input' and contains(@class, 'select__input')]")))
+    source_record_type_input.send_keys(source_record_type)
+    time.sleep(2)
+    source_record_type_input.send_keys(Keys.ENTER)
+    logging.info("Source record type is selected")
+    time.sleep(3)
+    destination_record_type_input = WebDriverWait(driver, 15).until(
+    EC.element_to_be_clickable((By.XPATH, "//input[@id='react-select-9-input' and contains(@class, 'select__input')]")))
+    destination_record_type_input.send_keys(destination_record_type)
+    time.sleep(2)
+    destination_record_type_input.send_keys(Keys.ENTER)
+    logging.info("Destination record type is selected")
+    time.sleep(3)
+    add_mapping_button = WebDriverWait(driver, 15).until(
+    EC.element_to_be_clickable((By.XPATH, "//button[normalize-space(text())='Add Mapping' and contains(@class, 'bg-primary')]")))
+    time.sleep(4)
+    add_mapping_button.click()
+    logging.info("Record Type is mapped")
+    try:
+        record_type_mapping_success_alert = WebDriverWait(driver, 15).until(EC.visibility_of_element_located((By.XPATH,"//div[@id='notistack-snackbar' and contains(text(), 'Record Type Mapped Successfully')]")))
+        assert "Record Type Mapped Successfully" in record_type_mapping_success_alert.text
+        logging.info("validated")
+    except Exception as e:
+            assert False, f"Alert not found: {e}"
+            logging.info(driver.page_source)
+    
+    time.sleep(2)
+
+def adding_trigger_sync_source_jql(driver, trigger_sync_source_jql):
+    trigger_sync_jql_input = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, "//span[contains(@class, 'text-gray-400') and normalize-space(text())='JQL']")))
+    trigger_sync_jql_input.click()
+    logging.info("Source JQL input box is clicked")
+    jql_input_box = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, "//textarea[@placeholder='JQL']")))
+    jql_input_box.clear()
+    jql_input_box.send_keys(trigger_sync_source_jql)   
+    save_button = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, "//button[normalize-space(text())='Save' and contains(@class, 'px-3') and contains(@class, 'py-1')]")))
+    save_button.click()
+    logging.info("Source JQL is saved")
+    time.sleep(3)
+
+def adding_trigger_sync_destination_jql(driver,trigger_sync_destination_jql):
+    trigger_sync_jql_input = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, "//div[contains(@class, 'text-gray-700') and .//span[normalize-space(text())='JQL']]")))
+    trigger_sync_jql_input.click()
+    logging.info("Destination JQL input box is clicked")
+    jql_input_box = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH,"//textarea[@placeholder='JQL']")))
+    jql_input_box.clear()
+    jql_input_box.send_keys(trigger_sync_destination_jql)   
+    save_button =  WebDriverWait(driver, 10).until(
+    EC.element_to_be_clickable((By.XPATH, "//button[normalize-space(text())='Save' and contains(@class, 'px-3') and contains(@class, 'py-1')]")))
+    save_button.click()
+    logging.info("Destination JQL is saved")
+    time.sleep(3)
+
+def record_type_mapping_gear_icon(driver, source_record_type):
+    """Access the record type mapping gear icon"""
+
+    WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.XPATH, "//table")))
+    time.sleep(3)
+    logging.info("Table loaded")
+    try:
+         record_row = driver.find_element(By.XPATH,f"//td[contains(text(), '{source_record_type}')]/parent::tr")
+    except:
+            # Approach 3: Partial match
+            record_row = driver.find_element(By.XPATH,f"//tr[contains(., '{source_record_type}')]")
+    logging.info(f"Found record type row for: {source_record_type}")
+
+    gear_button = record_row.find_element(By.XPATH, ".//button[contains(@class,'MuiIconButton-root')]")
+    gear_button.click()
+    time.sleep(8)
+
+    
         
+               
+
+
+
+
 
 
 

@@ -12,18 +12,18 @@ from helpers.connection_helper import load_project_mapping, configure_connection
 with open("mapping_config.json", "r") as f:
     config = json.load(f)
 source_project_name = config['project_mapping']['source_project_name']
+connection_name = os.getenv("connection_name")
 
-
-def test_project_mapping(logged_in_driver):
-    connection_name = os.getenv("connection_name")
+def test_project_mapping(logged_in_driver):    
     configure_connection(logged_in_driver, connection_name)
-    project_mapping = load_project_mapping(logged_in_driver)
+    load_project_mapping(logged_in_driver)
 
 def test_add_record_type_mapping(logged_in_driver):
+    configure_connection(logged_in_driver, connection_name)
+    project_mapping_gear_icon(logged_in_driver,source_project_name)
     load_record_type_mapping(logged_in_driver)
 
 def test_delete_project_mapping(logged_in_driver):
-    connection_name = os.getenv("connection_name")
     configure_connection(logged_in_driver, connection_name)
     project_mapping_gear_icon(logged_in_driver,source_project_name)
     delete_project_mapping(logged_in_driver)

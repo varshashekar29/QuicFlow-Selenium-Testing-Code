@@ -19,6 +19,9 @@
             }
         }
         
-    }
+    },
+    "trigger_sync_source_jql":"Status = 'In Progress'",
+    "trigger_sync_destination_jql" : "Status = 'In Progress'"
+
 
 }
